@@ -20,7 +20,8 @@ export class App extends Component {
         // inicializmamo el estado del componente react con la cuenta como no definida
         this.state = {
             account: undefined,
-            balance: 0
+            balance: 0,
+            flights: [],
         };
     }
 
@@ -47,8 +48,14 @@ export class App extends Component {
         this.setState({ balance : this.toEther(weiBalance)});
     }
 
+    async getFlights(){
+        let flights = await this.airlineService.getFlights();
+        this.setState({ flights: flights});
+    }
+
     async load() {
         this.getBalance();
+        this.getFlights();
     }
 
     render() {
@@ -73,7 +80,11 @@ export class App extends Component {
             <div className="row">
                 <div className="col-sm">
                     <Panel title="Available flights">
-
+                        {this.state.flights.map( (flight, i) => {
+                            return <div key={i}>
+                                <span>{i} # {flight.name} - cost: {this.toEther(flight.price)}</span>
+                            </div>
+                        })}
 
                     </Panel>
                 </div>
