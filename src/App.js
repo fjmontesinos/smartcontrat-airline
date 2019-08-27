@@ -7,6 +7,10 @@ export class App extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            account: undefined,
+        };
     }
 
     /**
@@ -14,7 +18,18 @@ export class App extends Component {
      */
     async componentDidMount(){
         this.web3 = await getWeb3();
-        console.log(this.web3.version);
+        
+        var account = (await this.web3.eth.getAccounts())[0].toLowerCase();
+       
+        this.setState({
+            account : account
+        }, () => {
+            this.load();
+        });
+    }
+
+    async load() {
+        console.log(this.state.account);
     }
 
     render() {
