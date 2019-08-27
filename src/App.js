@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import Panel from "./Panel";
 
 import getWeb3 from './getWeb3';
+import AirlineContrat from './ariline';
 
 export class App extends Component {
 
     constructor(props) {
         super(props);
 
+        // inicializmamo el estado del componente react con la cuenta como no definida
         this.state = {
             account: undefined,
         };
@@ -18,7 +20,10 @@ export class App extends Component {
      */
     async componentDidMount(){
         this.web3 = await getWeb3();
-        
+        this.airline = await AirlineContrat(this.web3.currentProvider);
+
+        console.log(this.airline.buyFlight);
+
         var account = (await this.web3.eth.getAccounts())[0].toLowerCase();
        
         this.setState({
@@ -29,7 +34,7 @@ export class App extends Component {
     }
 
     async load() {
-        console.log(this.state.account);
+        //console.log(this.state.account);
     }
 
     render() {
