@@ -4,6 +4,12 @@ import Panel from "./Panel";
 import getWeb3 from './getWeb3';
 import AirlineContrat from './ariline';
 
+const converter = (web3) => {
+    return (value) => {
+        return web3.utils.fromWei(value.toString(), 'ether');
+    }
+}
+
 export class App extends Component {
 
     constructor(props) {
@@ -22,7 +28,7 @@ export class App extends Component {
     async componentDidMount(){
         this.web3 = await getWeb3();
         this.airline = await AirlineContrat(this.web3.currentProvider);
-
+        this.toEther = converter(this.web3);
         var account = (await this.web3.eth.getAccounts())[0].toLowerCase();
        
         this.setState({
@@ -34,7 +40,7 @@ export class App extends Component {
 
     async getBalance(){
         let weiBalance = await this.web3.eth.getBalance(this.state.account);
-        this.setState({ balance : weiBalance});
+        this.setState({ balance : this.toEther(weiBalance)});
     }
 
     async load() {
