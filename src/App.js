@@ -3,6 +3,8 @@ import Panel from "./Panel";
 
 import getWeb3 from './getWeb3';
 import AirlineContrat from './ariline';
+import { AirlineService } from './airlineService';
+
 
 const converter = (web3) => {
     return (value) => {
@@ -29,6 +31,8 @@ export class App extends Component {
         this.web3 = await getWeb3();
         this.airline = await AirlineContrat(this.web3.currentProvider);
         this.toEther = converter(this.web3);
+        this.airlineService = new AirlineService(this.airline);
+
         var account = (await this.web3.eth.getAccounts())[0].toLowerCase();
        
         this.setState({
