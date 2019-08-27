@@ -12,6 +12,7 @@ export class App extends Component {
         // inicializmamo el estado del componente react con la cuenta como no definida
         this.state = {
             account: undefined,
+            balance: 0
         };
     }
 
@@ -22,8 +23,6 @@ export class App extends Component {
         this.web3 = await getWeb3();
         this.airline = await AirlineContrat(this.web3.currentProvider);
 
-        console.log(this.airline.buyFlight);
-
         var account = (await this.web3.eth.getAccounts())[0].toLowerCase();
        
         this.setState({
@@ -33,8 +32,13 @@ export class App extends Component {
         });
     }
 
+    async getBalance(){
+        let weiBalance = await this.web3.eth.getBalance(this.state.account);
+        this.setState({ balance : weiBalance});
+    }
+
     async load() {
-        //console.log(this.state.account);
+        this.getBalance();
     }
 
     render() {
@@ -45,8 +49,9 @@ export class App extends Component {
 
             <div className="row">
                 <div className="col-sm">
-                    <Panel title="Balance">
-
+                    <Panel title="Account Balance">
+                        <p><strong>Account:</strong> {this.state.account}</p>
+                        <span><strong>Balance:</strong> {this.state.balance}</span>
                     </Panel>
                 </div>
                 <div className="col-sm">
