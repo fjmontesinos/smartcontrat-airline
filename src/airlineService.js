@@ -10,17 +10,18 @@ export class AirlineService {
             let flight = await this.contract.flights(i);
             flights.push(flight);
         }
-        return this.mpaFlights(flights);
+        return this.mapFlights(flights);
     }
 
     async getTotalFlights(){
         return (await this.contract.totalFlights()).toNumber();
     }
 
-    mpaFlights(flights) {
+    mapFlights(flights) {
         return flights.map(flight => {
-            name: flight[0];
-            price: flight[1].toNumber()
-        })
+            return {
+            name: flight[0], 
+            price: flight[1].toNumber()}
+        });
     }
 }
