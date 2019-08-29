@@ -31,6 +31,14 @@ export class AirlineService {
         return this.mapFlights(flights);
     }
 
+    async getRefundableEther(account) {
+        return this.contract.getRefundableEther({from: account});
+    }
+
+    async redeemLoyaltyPoints(account) {
+        return this.contract.redeemLoyaltyPoints({from: account});
+    }
+
     mapFlights(flights) {
         return flights.map(flight => {
             return {
