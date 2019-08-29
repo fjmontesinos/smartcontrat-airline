@@ -17,6 +17,10 @@ export class AirlineService {
         return (await this.contract.totalFlights()).toNumber();
     }
 
+    async buyFlight(flightIndex, from, value) {
+        await this.contract.buyFlight(flightIndex, {from: from, value: value});   
+    }
+
     mapFlights(flights) {
         return flights.map(flight => {
             return {

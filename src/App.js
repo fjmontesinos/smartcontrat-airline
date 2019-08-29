@@ -53,6 +53,12 @@ export class App extends Component {
         this.setState({ flights: flights});
     }
 
+    async buyFlight(flightIndex, flight){
+        console.log("Buy flight index: " + flightIndex + ", flight: " + flight.name + ", cost: " + flight.price);
+        await this.airlineService.buyFlight(flightIndex, this.state.account, flight.price);
+        
+    }
+
     async load() {
         this.getBalance();
         this.getFlights();
@@ -83,6 +89,7 @@ export class App extends Component {
                         {this.state.flights.map( (flight, i) => {
                             return <div key={i}>
                                 <span>{i} # {flight.name} - cost: {this.toEther(flight.price)}</span>
+                                <button className="btn btn-sm btn-success text-white" onClick={() => this.buyFlight(i, flight)}>Buy</button>
                             </div>
                         })}
 
