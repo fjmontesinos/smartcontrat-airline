@@ -21,6 +21,16 @@ export class AirlineService {
         await this.contract.buyFlight(flightIndex, {from: from, value: value});   
     }
 
+    async getCustomerFlights(account){
+        let customerTotalFlights = await this.contract.customerTotalFlights(account);
+        let flights = [];
+        for(var i = 0; i < customerTotalFlights.toNumber(); i++){
+            let flight = await this.contract.customerFlights(account, i);
+            flights.push(flight);
+        }
+        return this.mapFlights(flights);
+    }
+
     mapFlights(flights) {
         return flights.map(flight => {
             return {
