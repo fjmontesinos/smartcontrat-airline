@@ -37,6 +37,15 @@ export class App extends Component {
 
         var account = (await this.web3.eth.getAccounts())[0].toLowerCase();
        
+        // suscribirnos a un evento de metamask de actualización para refrescar un cambio de cuenta
+        this.web3.currentProvider.publicConfigStore.on('update', async function(event) {
+            this.setState({
+                account: event.selectedAddress.toLowerCase()
+            }, () => {
+                this.load();
+            });
+        }.bind(this));
+
         this.setState({
             account : account
         }, () => {
